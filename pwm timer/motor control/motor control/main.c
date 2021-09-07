@@ -1,0 +1,26 @@
+/*
+ */ 
+#include<avr/io.h>
+#define F_CPU 8000000UL
+#include<util/delay.h>
+int main()
+{
+	DDRA=0x00;
+	DDRB=0xff;
+	while(1)
+	{
+		if(PINA ==0b00000001)
+		{
+			PORTB=0b00000001;
+		}
+		else if(PINA ==0b00000010)
+		{
+			PORTB=0b00000010;
+		}
+		else
+		{
+			PORTB=0b00000000;
+		}
+	}
+	return 0;
+}

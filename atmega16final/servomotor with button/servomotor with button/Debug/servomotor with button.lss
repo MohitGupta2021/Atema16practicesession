@@ -1,0 +1,213 @@
+
+servomotor with button.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000010e  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000162  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000162  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000194  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000020  00000000  00000000  000001d0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000006a1  00000000  00000000  000001f0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000005c2  00000000  00000000  00000891  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000002be  00000000  00000000  00000e53  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000024  00000000  00000000  00001114  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000366  00000000  00000000  00001138  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000000e0  00000000  00000000  0000149e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000040  00000000  00000000  0000157e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
+  64:	0c 94 85 00 	jmp	0x10a	; 0x10a <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <main>:
+#include <util/delay.h>
+
+
+int main(void)
+{
+    TCCR1A |=(1<<WGM10) |(1<<WGM11);
+  6c:	8f b5       	in	r24, 0x2f	; 47
+  6e:	83 60       	ori	r24, 0x03	; 3
+  70:	8f bd       	out	0x2f, r24	; 47
+    TCCR1B &=(~(1<<WGM13));
+  72:	8e b5       	in	r24, 0x2e	; 46
+  74:	8f 7e       	andi	r24, 0xEF	; 239
+  76:	8e bd       	out	0x2e, r24	; 46
+    TCCR1B |=(1<<WGM12);
+  78:	8e b5       	in	r24, 0x2e	; 46
+  7a:	88 60       	ori	r24, 0x08	; 8
+  7c:	8e bd       	out	0x2e, r24	; 46
+    //
+    //
+    //pwm mode
+    //i non inveting pwm mode
+
+    TCCR1A |=(1<<COM1A1);
+  7e:	8f b5       	in	r24, 0x2f	; 47
+  80:	80 68       	ori	r24, 0x80	; 128
+  82:	8f bd       	out	0x2f, r24	; 47
+    TCCR1A &=(~(1<<COM1A0));
+  84:	8f b5       	in	r24, 0x2f	; 47
+  86:	8f 7b       	andi	r24, 0xBF	; 191
+  88:	8f bd       	out	0x2f, r24	; 47
+    
+
+    //prescaller set 64
+    TCCR1B|=(1<<CS11)|(1<<CS10);
+  8a:	8e b5       	in	r24, 0x2e	; 46
+  8c:	83 60       	ori	r24, 0x03	; 3
+  8e:	8e bd       	out	0x2e, r24	; 46
+    TCCR1B &=(~(1<<CS12));
+  90:	8e b5       	in	r24, 0x2e	; 46
+  92:	8b 7f       	andi	r24, 0xFB	; 251
+  94:	8e bd       	out	0x2e, r24	; 46
+    
+    DDRD |=(1<<DDD5); //for pd5 and pd4
+  96:	81 b3       	in	r24, 0x11	; 17
+  98:	80 62       	ori	r24, 0x20	; 32
+  9a:	81 bb       	out	0x11, r24	; 17
+	DDRA &=(~(1<<DDA1));//for +90
+  9c:	8a b3       	in	r24, 0x1a	; 26
+  9e:	8d 7f       	andi	r24, 0xFD	; 253
+  a0:	8a bb       	out	0x1a, r24	; 26
+	DDRA &=(~(1<<DDA2));
+  a2:	8a b3       	in	r24, 0x1a	; 26
+  a4:	8b 7f       	andi	r24, 0xFB	; 251
+  a6:	8a bb       	out	0x1a, r24	; 26
+//button for 90 degree +==
+//button for -90
+    
+    while (1)
+    {
+		if(PINA &(1<<PINA1)){
+  a8:	c9 99       	sbic	0x19, 1	; 25
+  aa:	10 c0       	rjmp	.+32     	; 0xcc <main+0x60>
+  ac:	16 c0       	rjmp	.+44     	; 0xda <main+0x6e>
+		for(unsigned int i=0;i<1024;i++){
+	    OCR1A=800;
+  ae:	20 e2       	ldi	r18, 0x20	; 32
+  b0:	33 e0       	ldi	r19, 0x03	; 3
+  b2:	3b bd       	out	0x2b, r19	; 43
+  b4:	2a bd       	out	0x2a, r18	; 42
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  b6:	2f e7       	ldi	r18, 0x7F	; 127
+  b8:	3a e1       	ldi	r19, 0x1A	; 26
+  ba:	46 e0       	ldi	r20, 0x06	; 6
+  bc:	21 50       	subi	r18, 0x01	; 1
+  be:	30 40       	sbci	r19, 0x00	; 0
+  c0:	40 40       	sbci	r20, 0x00	; 0
+  c2:	e1 f7       	brne	.-8      	; 0xbc <main+0x50>
+  c4:	00 c0       	rjmp	.+0      	; 0xc6 <main+0x5a>
+  c6:	00 00       	nop
+//button for -90
+    
+    while (1)
+    {
+		if(PINA &(1<<PINA1)){
+		for(unsigned int i=0;i<1024;i++){
+  c8:	01 96       	adiw	r24, 0x01	; 1
+  ca:	02 c0       	rjmp	.+4      	; 0xd0 <main+0x64>
+  cc:	80 e0       	ldi	r24, 0x00	; 0
+  ce:	90 e0       	ldi	r25, 0x00	; 0
+  d0:	81 15       	cp	r24, r1
+  d2:	24 e0       	ldi	r18, 0x04	; 4
+  d4:	92 07       	cpc	r25, r18
+  d6:	58 f3       	brcs	.-42     	; 0xae <main+0x42>
+  d8:	e7 cf       	rjmp	.-50     	; 0xa8 <main+0x3c>
+	    _delay_ms(2000);
+    }
+	}
+	else{
+	
+	if(PINA &(1<<PINA2)){
+  da:	ca 99       	sbic	0x19, 2	; 25
+  dc:	10 c0       	rjmp	.+32     	; 0xfe <main+0x92>
+  de:	e4 cf       	rjmp	.-56     	; 0xa8 <main+0x3c>
+    
+    for(unsigned int i=1023;i>1;i--){
+	    OCR1A=300;
+  e0:	2c e2       	ldi	r18, 0x2C	; 44
+  e2:	31 e0       	ldi	r19, 0x01	; 1
+  e4:	3b bd       	out	0x2b, r19	; 43
+  e6:	2a bd       	out	0x2a, r18	; 42
+  e8:	3f e7       	ldi	r19, 0x7F	; 127
+  ea:	4a e1       	ldi	r20, 0x1A	; 26
+  ec:	26 e0       	ldi	r18, 0x06	; 6
+  ee:	31 50       	subi	r19, 0x01	; 1
+  f0:	40 40       	sbci	r20, 0x00	; 0
+  f2:	20 40       	sbci	r18, 0x00	; 0
+  f4:	e1 f7       	brne	.-8      	; 0xee <main+0x82>
+  f6:	00 c0       	rjmp	.+0      	; 0xf8 <main+0x8c>
+  f8:	00 00       	nop
+	}
+	else{
+	
+	if(PINA &(1<<PINA2)){
+    
+    for(unsigned int i=1023;i>1;i--){
+  fa:	01 97       	sbiw	r24, 0x01	; 1
+  fc:	02 c0       	rjmp	.+4      	; 0x102 <main+0x96>
+  fe:	8f ef       	ldi	r24, 0xFF	; 255
+ 100:	93 e0       	ldi	r25, 0x03	; 3
+ 102:	82 30       	cpi	r24, 0x02	; 2
+ 104:	91 05       	cpc	r25, r1
+ 106:	60 f7       	brcc	.-40     	; 0xe0 <main+0x74>
+ 108:	cf cf       	rjmp	.-98     	; 0xa8 <main+0x3c>
+
+0000010a <_exit>:
+ 10a:	f8 94       	cli
+
+0000010c <__stop_program>:
+ 10c:	ff cf       	rjmp	.-2      	; 0x10c <__stop_program>
